@@ -1,135 +1,252 @@
-# 📦 FedEx Logistics Shipment Analysis (Python EDA)
+# 📦 FedEx Logistics Shipment Delay Prediction
 
-## 🚀 Project Overview
-This project performs an end-to-end Exploratory Data Analysis (EDA) on FedEx logistics shipment data to uncover delivery delays, cost drivers, and operational inefficiencies.
+## 🚀 End-to-End Data Analytics + Machine Learning Project
 
-The goal is to answer:
-- Why are shipments getting delayed?
-- Does higher shipping cost guarantee faster delivery?
-- Which vendors and countries cause the most delays?
-- How can logistics cost be optimized?
+This project analyzes real-world logistics shipment data and builds a **Machine Learning model to predict delivery delays before shipment dispatch**.
 
----
-
-## 🎯 Business Problem
-FedEx wants to improve logistics efficiency by:
-- Reducing delivery delays
-- Optimizing freight costs
-- Improving vendor performance
-- Enabling smarter shipment planning
+The project covers the complete lifecycle:
+- Data Cleaning
+- Exploratory Data Analysis (EDA)
+- Feature Engineering
+- Machine Learning Modeling
+- Model Evaluation
+- Deployment Ready Model
 
 ---
 
-## 📊 Dataset Summary
-- **Total Records:** 10,324 shipments
-- **Total Features:** 33 columns
+# 📌 Business Problem
 
-Key variables:
-- Shipment Mode
-- Vendor & Country
-- Delivery Dates
-- Shipment Weight
-- Freight Cost & Insurance
-- Product Group
-- Line Item Value
+Late deliveries in global logistics lead to:
 
----
+- Customer dissatisfaction
+- Contract penalties
+- Increased operational costs
+- Vendor performance issues
 
-## 🛠️ Tech Stack
-- Python
-- Pandas
-- NumPy
-- Matplotlib
-- Seaborn
+### 🎯 Goal
+Build a predictive system that answers:
+
+**Will a shipment be delayed or delivered on time?**
+
+This allows operations teams to take **preventive action before shipment dispatch.**
 
 ---
 
-## 🔎 Project Workflow
+# 📊 Dataset Overview
 
-### 1️⃣ Data Cleaning
+The dataset contains global shipment records including:
+
+| Category | Features |
+|---|---|
+| Order Info | Project Code, Product Group, Quantity |
+| Vendor Info | Vendor, Country, Manufacturing Site |
+| Cost Metrics | Freight Cost, Pack Price, Insurance |
+| Shipment Info | Shipment Mode, Weight |
+| Timeline Info | PO Dates, PQ Dates |
+| Target Variable | Delivery Status |
+
+---
+
+# 🔎 PART 1 — Exploratory Data Analysis (EDA)
+
+## Data Quality Checks
+- Missing value analysis
+- Duplicate detection
+- Outlier detection
+- Data type validation
+
+## Univariate Analysis
+- Shipment Mode Distribution
+- Product Group Distribution
+- Vendor Frequency
+- Country Distribution
+
+## Bivariate & Multivariate Analysis
+Key relationships explored:
+
+- Weight vs Freight Cost
+- Vendor vs Delivery Delay
+- Country vs Delay
+- Shipment Mode vs Cost
+- Insurance vs Delay
+- Product Groups vs Shipments
+
+---
+
+## 🔥 Key EDA Insights
+
+- Heavy shipments have higher freight cost and delay risk
+- Certain vendors consistently cause delays
+- Some countries have significantly higher delay rates
+- Air Charter shipments have highest freight cost
+- High-value shipments require higher insurance
+- Large orders increase procurement lead time
+
+📌 **Conclusion:**  
+Most delivery delays originate in **procurement and planning stages**, not transportation.
+
+---
+
+# ⚙️ PART 2 — Feature Engineering
+
+### Data Cleaning
 - Converted date columns to datetime
-- Cleaned Freight Cost & Weight columns
-- Handled missing values
-- Created new features:
-  - Delivery Delay
-  - Delivery Status
+- Extracted Year / Month / Day
+- Removed raw datetime columns
+- Handled missing values using imputation
+- Encoded categorical variables
+- Removed data leakage features
 
 ---
 
-### 2️⃣ Exploratory Data Analysis
+# 🤖 PART 3 — Machine Learning Implementation
 
-#### Univariate Analysis
-- Shipment mode distribution
-- Delivery delay distribution
-- Product group distribution
-
-#### Bivariate & Multivariate Analysis
-- Shipment mode vs delivery delay
-- Vendor vs delay
-- Country vs delay
-- Weight vs freight cost
-- Insurance vs delay
-
-#### Correlation Analysis
-- Identified key cost and delay drivers
+## 🎯 Target Variable
+```
+Delivery Status
+0 → On Time  
+1 → Delayed
+```
 
 ---
 
-## 📈 Key Insights
+## ML Pipeline
 
-### 🚚 Shipment Insights
-- Air is the most used shipment mode.
-- Air Charter is the most expensive shipping method.
+### Train Test Split
+```
+80% Training  
+20% Testing
+```
 
-### ⏱️ Delivery Insights
-- Majority shipments are on time.
-- Delays are driven by vendors and destination countries.
+### Handle Imbalanced Dataset
+Used **SMOTE** to balance delayed vs on-time shipments.
 
-### 💰 Cost Insights
-- Higher freight cost does NOT guarantee faster delivery.
-- Significant cost optimization opportunity exists.
-
-### 🌍 High Delay Countries
-- Congo (DRC)
-- Togo
-- Benin
-- Senegal
-- Kenya
-
-### 🏭 Vendor Insights
-Poor vendor performance causes 4–5x more delays.
+### Feature Scaling
+Used **StandardScaler** on numeric features.
 
 ---
 
-## 💡 Business Recommendations
+# 🧠 Models Trained
 
-- Implement vendor performance scorecards
-- Build country risk-based shipment planning
-- Reduce emergency Air Charter shipments
-- Optimize freight cost strategy
-- Build ML model for delay prediction
-
----
-
-## 📊 Expected Business Impact
-
-| Area | Improvement |
-|------|-------------|
-| Delivery Delay Reduction | 40–60% |
-| Freight Cost Reduction | 15–25% |
-| Vendor Efficiency | Improved |
-| Shipment Planning | Data-Driven |
+| Model | Purpose |
+|---|---|
+| Logistic Regression | Baseline model |
+| Decision Tree | Non-linear relationships |
+| Random Forest ⭐ | Final production model |
 
 ---
 
-## 📌 Conclusion
-This project demonstrates how data analytics can improve logistics performance, reduce costs, and increase delivery reliability.
+# 📊 Model Performance
+
+| Model | Accuracy |
+|---|---|
+| Logistic Regression | 65% |
+| Decision Tree | 87% |
+| Random Forest | **94%** |
+
+### Final Model → Random Forest
+
+```
+Accuracy  : 94%
+Precision : 94%
+Recall    : 94%
+F1 Score  : 94%
+```
+
+Model generalizes well and avoids overfitting.
 
 ---
 
-## 👨‍💻 Author
-**Ajaya Kumar Pradhan**
+# 🔍 Feature Importance (Top Delay Drivers)
 
-GitHub: https://github.com/Ajaya210
+The model identified the strongest delay predictors:
 
-⭐ If you like this project, please give it a star!
+1. Procurement timeline (PO & PQ dates)
+2. Line item quantity & value
+3. Vendor reliability
+4. Country & manufacturing site
+5. Unit & pack pricing
+6. Shipment cost factors
+
+📌 Delays originate in **procurement & supply planning stage**.
+
+---
+
+# 💼 Business Impact
+
+This ML system can be used as a **Delay Risk Prediction Tool**.
+
+### Before Shipping:
+The company can:
+- Predict delay probability
+- Flag high-risk shipments
+- Prioritize logistics resources
+- Inform customers early
+- Improve vendor selection
+
+### Expected Benefits
+- Reduced late deliveries
+- Improved customer satisfaction
+- Better vendor management
+- Lower logistics cost
+- Data-driven decision making
+
+---
+
+# 💾 Model Deployment
+
+Saved model file:
+```
+fedex_delay_model.pkl
+```
+
+Ready for integration into:
+- Web Apps
+- Dashboards
+- REST APIs
+- Real-time logistics systems
+
+---
+
+# 🛠️ Tech Stack
+
+| Tool | Purpose |
+|---|---|
+| Python | Analysis & ML |
+| Pandas | Data Processing |
+| NumPy | Numerical Computing |
+| Matplotlib & Seaborn | Visualization |
+| Scikit-Learn | Machine Learning |
+| Imbalanced-Learn | SMOTE |
+| Joblib | Model Saving |
+
+---
+
+# ▶️ How to Run Project
+
+```bash
+git clone https://github.com/yourusername/fedex-delay-prediction.git
+cd fedex-delay-prediction
+pip install -r requirements.txt
+```
+
+Run notebook:
+```
+FedEx_Logistics_Analysis.ipynb
+```
+
+---
+
+# 🔮 Future Improvements
+
+- Real-time tracking integration
+- Weather & holiday data integration
+- Deep learning models
+- Deployment as REST API
+
+---
+
+# 🎉 Conclusion
+
+This project demonstrates how **Data Analytics + Machine Learning**
+can transform logistics operations from **reactive → proactive**.
